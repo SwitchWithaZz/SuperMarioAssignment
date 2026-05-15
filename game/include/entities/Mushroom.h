@@ -1,0 +1,4 @@
+#ifndef GAME_MUSHROOM_HPP
+#define GAME_MUSHROOM_HPP
+
+#endif //GAME_MUSHROOM_HPP

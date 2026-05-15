@@ -1,0 +1,4 @@
+#ifndef GAME_BLOCK_HPP
+#define GAME_BLOCK_HPP
+
+#endif //GAME_BLOCK_HPP
