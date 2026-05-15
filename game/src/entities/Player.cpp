@@ -34,6 +34,23 @@ void Player::update(float dt) {
 
     body.move(velocity * dt);
 
+    // LEFT WALL
+    if (body.getPosition().x < 0.f) {
+        body.setPosition({
+            0.f,
+            body.getPosition().y
+        });
+    }
+
+    // RIGHT WALL
+    if (body.getPosition().x + body.getSize().x > 1000.f) {
+        body.setPosition({
+            1000.f - body.getSize().x,
+            body.getPosition().y
+        });
+    }
+
+    // FLOOR
     const float floorY = 500.f;
 
     if (body.getPosition().y + body.getSize().y >= floorY) {

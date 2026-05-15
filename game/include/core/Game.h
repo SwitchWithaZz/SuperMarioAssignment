@@ -8,6 +8,7 @@ private:
     sf::RenderWindow window;
     Player player;
 
+
     void processEvents();
     void update(float dt);
     void render();
