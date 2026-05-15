@@ -16,10 +16,18 @@ float InputManager::getHorizontalMovement() {
     }
 
     if (sf::Joystick::isConnected(0)) {
-        float axisX = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X);
+        float leftStickX = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X);
+        float dpadX = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovX);
 
-        if (std::abs(axisX) > 20.f) {
-            movement = axisX / 100.f;
+        if (std::abs(leftStickX) > 20.f) {
+            movement = leftStickX / 100.f;
+        }
+
+        if (dpadX < -50.f) {
+            movement = -1.f;
+        }
+        else if (dpadX > 50.f) {
+            movement = 1.f;
         }
     }
 
@@ -31,9 +39,19 @@ bool InputManager::isJumpPressed() {
     bool controllerJump = false;
 
     if (sf::Joystick::isConnected(0)) {
+        bool button0 = sf::Joystick::isButtonPressed(0, 0);
+        bool button1 = sf::Joystick::isButtonPressed(0, 1);
+        bool button2 = sf::Joystick::isButtonPressed(0, 2);
+        bool button3 = sf::Joystick::isButtonPressed(0, 3);
+
+        float dpadY = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::PovY);
+
         controllerJump =
-            sf::Joystick::isButtonPressed(0, 0) ||
-            sf::Joystick::isButtonPressed(0, 1);
+            button0 ||
+            button1 ||
+            button2 ||
+            button3 ||
+            dpadY > 50.f;
     }
 
     return keyboardJump || controllerJump;
