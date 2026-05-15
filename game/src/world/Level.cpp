@@ -133,3 +133,46 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
 
     return solidBlocks;
 }
+
+void Level::breakBlockAbove(const sf::FloatRect& playerBounds) {
+
+    sf::FloatRect headCheckArea(
+        sf::Vector2f(
+            playerBounds.position.x,
+            playerBounds.position.y - 10.f
+        ),
+        sf::Vector2f(
+            playerBounds.size.x,
+            20.f
+        )
+    );
+
+    for (int row = 0; row < map.size(); row++) {
+
+        for (int col = 0; col < map[row].size(); col++) {
+
+            if (map[row][col] == 'B') {
+
+                sf::FloatRect blockBounds(
+                    sf::Vector2f(
+                        static_cast<float>(col * tileSize),
+                        static_cast<float>(row * tileSize)
+                    ),
+                    sf::Vector2f(
+                        static_cast<float>(tileSize),
+                        static_cast<float>(tileSize)
+                    )
+                );
+
+                if (headCheckArea.findIntersection(blockBounds).has_value()) {
+                    map[row][col] = '.';
+                    return;
+                }
+            }
+        }
+    }
+}
+
+std::vector<Coin>& Level::getCoins() {
+    return coins;
+}

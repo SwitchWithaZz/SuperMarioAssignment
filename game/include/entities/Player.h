@@ -13,6 +13,7 @@ private:
     float gravity;
 
     bool isGrounded;
+    bool hitHead;
 
 public:
     Player();
@@ -22,4 +23,5 @@ public:
     void draw(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;
+    bool didHitHead() const;
 };

@@ -2,6 +2,10 @@
 
 #include <optional>
 
+#include "core/Game.h"
+
+#include <optional>
+
 Game::Game()
     : window(sf::VideoMode({1000, 600}), "Mario Assignment"),
       player(),
@@ -31,6 +35,10 @@ void Game::processEvents() {
 void Game::update(float dt) {
     player.handleInput();
     player.update(dt, level.getSolidBlocks());
+
+    if (player.didHitHead()) {
+        level.breakBlockAbove(player.getBounds());
+    }
 }
 
 void Game::render() {

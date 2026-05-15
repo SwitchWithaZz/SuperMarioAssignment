@@ -6,7 +6,8 @@ Player::Player()
       moveSpeed(300.f),
       jumpStrength(-700.f),
       gravity(1500.f),
-      isGrounded(false) {
+      isGrounded(false),
+      hitHead(false) {
 
     body.setSize({50.f, 50.f});
     body.setFillColor(sf::Color::Red);
@@ -24,6 +25,8 @@ void Player::handleInput() {
 }
 
 void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
+    hitHead = false;
+
     // Horizontal movement first
     body.move({velocity.x * dt, 0.f});
 
@@ -82,6 +85,8 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
                     body.getPosition().x,
                     blockBounds.position.y + blockBounds.size.y
                 });
+
+                hitHead = true;
             }
 
             velocity.y = 0.f;
@@ -95,4 +100,8 @@ void Player::draw(sf::RenderWindow& window) {
 
 sf::FloatRect Player::getBounds() const {
     return body.getGlobalBounds();
+}
+
+bool Player::didHitHead() const {
+    return hitHead;
 }

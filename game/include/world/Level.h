@@ -24,5 +24,7 @@ public:
 
     std::vector<sf::FloatRect> getSolidBlocks() const;
 
+    void breakBlockAbove(const sf::FloatRect& playerBounds);
+
     std::vector<Coin>& getCoins();
 };
