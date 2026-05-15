@@ -1,5 +1,4 @@
 #include "../../include/entities/Mushroom.h"
-
 #include <cstdlib>
 
 Mushroom::Mushroom(float x, float y)
@@ -32,9 +31,9 @@ void Mushroom::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         velocity.x = moveSpeed;
     }
 
-    if (body.getPosition().x + body.getSize().x > 1500.f) {
+    if (body.getPosition().x + body.getSize().x > 3100.f) {
         body.setPosition(sf::Vector2f(
-            1500.f - body.getSize().x,
+            3100.f - body.getSize().x,
             body.getPosition().y
         ));
 

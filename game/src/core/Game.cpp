@@ -6,6 +6,10 @@
 
 Game::Game()
     : window(sf::VideoMode({1500, 900}), "Mario Assignment"),
+      camera(sf::FloatRect(
+          sf::Vector2f(0.f, 0.f),
+          sf::Vector2f(1500.f, 900.f)
+      )),
       player(),
       level(),
       coinText(font),
@@ -60,13 +64,28 @@ void Game::update(float dt) {
             coinText.setString("Coins: " + std::to_string(coinCount));
             }
     }
+
+    sf::FloatRect playerBounds = player.getBounds();
+
+    float cameraX = playerBounds.position.x + playerBounds.size.x / 2.f;
+
+    if (cameraX < 750.f) {
+        cameraX = 750.f;
+    }
+
+    camera.setCenter(sf::Vector2f(cameraX, 450.f));
 }
 
 void Game::render() {
     window.clear(sf::Color(92, 148, 252));
 
+    window.setView(camera);
+
     level.draw(window);
     player.draw(window);
+
+    window.setView(window.getDefaultView());
+
     window.draw(coinText);
 
     window.display();

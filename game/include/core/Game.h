@@ -8,6 +8,8 @@
 class Game {
 private:
     sf::RenderWindow window;
+    sf::View camera;
+
     Player player;
     Level level;
 
