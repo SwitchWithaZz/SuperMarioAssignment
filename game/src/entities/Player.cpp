@@ -11,8 +11,10 @@ Player::Player()
 
       hitHead(false) {
 
-    body.setSize({48.f, 64.f});
+    mario.setTextureRect(sf::IntRect({0, 0}, {1, 1}));
     mario.setScale({4.f, 4.f});
+
+    body.setSize({48.f, 64.f});
     //body.setFillColor(sf::Color::Red);
     body.setPosition({100.f, 300.f});
 }
@@ -25,6 +27,11 @@ void Player::handleInput() {
         velocity.y = jumpStrength;
         isGrounded = false;
     }
+
+    if (velocity.x < 0)
+        mario.setScale({-4.f, 4.f});
+    else if (velocity.x > 0)
+        mario.setScale({4.f, 4.f});
 }
 
 void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
@@ -62,6 +69,7 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
 
             velocity.x = 0.f;
         }
+        updateAnimation(dt);
     }
 
     // Screen boundaries
@@ -132,6 +140,30 @@ bool Player::didHitHead() const {
 void Player::makeBig() {
     sf::Vector2f oldSize = body.getSize();
     body.setSize(sf::Vector2f(48.f, 96.f));
-    mario.setScale(sf::Vector2f(4.f, 4.f));
-    mario.setTexture(bigMarioTexture);
+}
+
+void Player::updateAnimation(float dt) {
+
+    animTimer += dt;
+
+    if (!isGrounded) {
+        // jump frame (row 2)
+        mario.setTextureRect(sf::IntRect({0, 64}, {32, 32}));
+        return;
+    }
+
+    if (velocity.x != 0.f) {
+
+        // running animation (row 1)
+        if (animTimer > 0.1f) {
+            frameX = (frameX + 1) % 3;
+            animTimer = 0.f;
+        }
+
+        mario.setTextureRect(sf::IntRect({frameX * 32, 32}, {32, 32}));
+    }
+    else {
+        // idle (row 0)
+        mario.setTextureRect(sf::IntRect({0, 0}, {32, 32}));
+    }
 }
