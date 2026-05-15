@@ -7,6 +7,8 @@ find_package(SFML COMPONENTS Graphics Window System Audio REQUIRED)
 
 add_executable(game
         src/main.cpp
+        src/core/Game.cpp
+        src/entities/Player.cpp
 )
 
 target_include_directories(game PRIVATE include)
