@@ -19,8 +19,24 @@ void Level::loadFromFile(const std::string& path) {
 
     std::string line;
 
+    int row = 0;
+
     while (std::getline(file, line)) {
+
         map.push_back(line);
+
+        for (int col = 0; col < line.size(); col++) {
+
+            if (line[col] == 'C') {
+
+                coins.emplace_back(
+                    static_cast<float>(col * tileSize + 6),
+                    static_cast<float>(row * tileSize + 6)
+                );
+            }
+        }
+
+        row++;
     }
 
     file.close();
@@ -59,6 +75,9 @@ void Level::draw(sf::RenderWindow& window) {
             }
         }
     }
+    for (Coin& coin : coins) {
+        coin.draw(window);
+    }
 }
 
 std::vector<sf::FloatRect> Level::getSolidBlocks() const {
@@ -90,4 +109,8 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
     }
 
     return solidBlocks;
+}
+
+std::vector<Coin>& Level::getCoins() {
+    return coins;
 }
