@@ -11,6 +11,10 @@ private:
     Player player;
     Level level;
 
+    sf::Font font;
+    sf::Text coinText;
+    int coinCount;
+
     void processEvents();
     void update(float dt);
     void render();
