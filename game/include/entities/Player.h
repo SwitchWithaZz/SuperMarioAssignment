@@ -2,9 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-    const sf::Texture smallMarioTexture("../assets/textures/Mario/ClassicNES SMB Small Mario Sprite.png");
-    const sf::Texture bigMarioTexture("../assets/textures/Mario/ClassicNES SMB Super Mario Sprite.png");
-    inline sf::Sprite mario(smallMarioTexture);
+    const sf::Texture marioTexture("../assets/textures/Mario/ClassicNES SMB Small Mario Sprite.png");
+    inline sf::Sprite mario(marioTexture);
 
 class Player {
 private:
@@ -19,6 +18,11 @@ private:
 
     bool isGrounded;
     bool hitHead;
+
+    int frameX = 0;
+    float animTimer = 0.f;
+
+    void updateAnimation(float dt);
 
 public:
     Player();
