@@ -131,5 +131,7 @@ bool Player::didHitHead() const {
 
 void Player::makeBig() {
     sf::Vector2f oldSize = body.getSize();
-
-    body.setSize(sf::Vector2f(50.f, 100.f));
+    body.setSize(sf::Vector2f(48.f, 96.f));
+    mario.setScale(sf::Vector2f(4.f, 4.f));
+    mario.setTexture(bigMarioTexture);
+}

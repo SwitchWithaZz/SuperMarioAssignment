@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
     const sf::Texture smallMarioTexture("../assets/textures/Mario/ClassicNES SMB Small Mario Sprite.png");
+    const sf::Texture bigMarioTexture("../assets/textures/Mario/ClassicNES SMB Super Mario Sprite.png");
     inline sf::Sprite mario(smallMarioTexture);
 
 class Player {
