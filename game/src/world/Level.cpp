@@ -53,7 +53,41 @@ void Level::draw(sf::RenderWindow& window) {
                 tile.setFillColor(sf::Color::Green);
 
                 window.draw(tile);
+
+                tile.setOutlineThickness(1.f);
+                tile.setOutlineColor(sf::Color::Black);
             }
         }
     }
+}
+
+std::vector<sf::FloatRect> Level::getSolidBlocks() const {
+
+    std::vector<sf::FloatRect> solidBlocks;
+
+    for (int row = 0; row < map.size(); row++) {
+
+        for (int col = 0; col < map[row].size(); col++) {
+
+            char currentTile = map[row][col];
+
+            if (currentTile == '#') {
+
+                solidBlocks.push_back(
+                    sf::FloatRect(
+                        sf::Vector2f(
+                            static_cast<float>(col * tileSize),
+                            static_cast<float>(row * tileSize)
+                        ),
+                        sf::Vector2f(
+                            static_cast<float>(tileSize),
+                            static_cast<float>(tileSize)
+                        )
+                    )
+                );
+            }
+        }
+    }
+
+    return solidBlocks;
 }

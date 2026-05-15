@@ -4,6 +4,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include <vector>
 #include <string>
 
@@ -19,6 +20,7 @@ public:
     void loadFromFile(const std::string& path);
 
     void draw(sf::RenderWindow& window);
-};
 
+    std::vector<sf::FloatRect> getSolidBlocks() const;
+};
 #endif //GAME_LEVEL_H
