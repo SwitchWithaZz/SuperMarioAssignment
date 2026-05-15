@@ -128,3 +128,8 @@ sf::FloatRect Player::getBounds() const {
 bool Player::didHitHead() const {
     return hitHead;
 }
+
+void Player::makeBig() {
+    sf::Vector2f oldSize = body.getSize();
+
+    body.setSize(sf::Vector2f(50.f, 100.f));
