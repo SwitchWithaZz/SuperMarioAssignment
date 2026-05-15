@@ -19,6 +19,8 @@ add_executable(game
         src/entities/coin.cpp
         include/entities/Mushroom.h
         src/entities/mushroom.cpp
+        include/core/InputManager.h
+        src/core/InputManager.cpp
 )
 
 target_include_directories(game PRIVATE include)

@@ -18,7 +18,7 @@ public:
     Player();
 
     void handleInput();
-    void update(float dt, const std::vector<sf::RectangleShape>& solidBlocks);
+    void update(float dt, const std::vector<sf::FloatRect>& solidBlocks);
     void draw(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;

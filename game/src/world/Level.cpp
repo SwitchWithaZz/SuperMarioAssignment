@@ -4,6 +4,7 @@
 #include <iostream>
 
 Level::Level() {
+    loadFromFile("../assets/levels/level1.txt");
 }
 
 void Level::loadFromFile(const std::string& path) {

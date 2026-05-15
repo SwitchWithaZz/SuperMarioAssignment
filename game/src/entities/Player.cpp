@@ -24,7 +24,7 @@ void Player::handleInput() {
     }
 }
 
-void Player::update(float dt, const std::vector<sf::RectangleShape>& solidBlocks) {
+void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
     velocity.y += gravity * dt;
 
     body.move(velocity * dt);
@@ -45,12 +45,11 @@ void Player::update(float dt, const std::vector<sf::RectangleShape>& solidBlocks
 
     isGrounded = false;
 
-    for (const auto& block : solidBlocks) {
-        auto intersection = body.getGlobalBounds().findIntersection(block.getGlobalBounds());
+    for (const auto& blockBounds : solidBlocks) {
+        auto intersection = body.getGlobalBounds().findIntersection(blockBounds);
 
         if (intersection.has_value()) {
             sf::FloatRect playerBounds = body.getGlobalBounds();
-            sf::FloatRect blockBounds = block.getGlobalBounds();
 
             if (velocity.y > 0.f) {
                 body.setPosition({
