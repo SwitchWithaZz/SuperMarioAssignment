@@ -87,9 +87,6 @@ void Level::draw(sf::RenderWindow& window) {
                     tile.setFillColor(sf::Color(255,165,0));
                 }
 
-                tile.setOutlineThickness(1.f);
-                tile.setOutlineColor(sf::Color::Black);
-
                 window.draw(tile);
             }
         }
