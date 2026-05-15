@@ -43,6 +43,14 @@ void Level::loadFromFile(const std::string& path) {
     file.close();
 }
 
+void Level::update(float dt) {
+    std::vector<sf::FloatRect> solidBlocks = getSolidBlocks();
+
+    for (Mushroom& mushroom : mushrooms) {
+        mushroom.update(dt, solidBlocks);
+    }
+}
+
 void Level::draw(sf::RenderWindow& window) {
 
     sf::RectangleShape tile(
@@ -56,9 +64,11 @@ void Level::draw(sf::RenderWindow& window) {
 
         for (int col = 0; col < map[row].size(); col++) {
 
+            // ... existing code ...
+
             char currentTile = map[row][col];
 
-            if (currentTile == '#' || currentTile == 'B' || currentTile == '?') {
+            if (currentTile == '#' || currentTile == 'B' || currentTile == '?' || currentTile == 'U') {
 
                 if (currentTile == '#') {
                     tile.setSize(sf::Vector2f(50.f, 70.f));
@@ -86,6 +96,9 @@ void Level::draw(sf::RenderWindow& window) {
                 else if (currentTile == '?') {
                     tile.setFillColor(sf::Color(252, 152, 56));
                 }
+                else if (currentTile == 'U') {
+                    tile.setFillColor(sf::Color(120, 120, 120));
+                }
 
                 window.draw(tile);
             }
@@ -94,6 +107,10 @@ void Level::draw(sf::RenderWindow& window) {
 
     for (Coin& coin : coins) {
         coin.draw(window);
+    }
+
+    for (Mushroom& mushroom : mushrooms) {
+        mushroom.draw(window);
     }
 }
 
@@ -107,7 +124,7 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
 
             char currentTile = map[row][col];
 
-            if (currentTile == '#' || currentTile == 'B' || currentTile == '?') {
+            if (currentTile == '#' || currentTile == 'B' || currentTile == '?' || currentTile == 'U') {
 
                 sf::Vector2f blockSize(
                     static_cast<float>(tileSize),
@@ -134,7 +151,7 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
     return solidBlocks;
 }
 
-void Level::breakBlockAbove(const sf::FloatRect& playerBounds) {
+void Level::hitBlockAbove(const sf::FloatRect& playerBounds) {
 
     sf::FloatRect headCheckArea(
         sf::Vector2f(
@@ -151,7 +168,7 @@ void Level::breakBlockAbove(const sf::FloatRect& playerBounds) {
 
         for (int col = 0; col < map[row].size(); col++) {
 
-            if (map[row][col] == 'B') {
+            if (map[row][col] == 'B' || map[row][col] == '?') {
 
                 sf::FloatRect blockBounds(
                     sf::Vector2f(
@@ -165,7 +182,19 @@ void Level::breakBlockAbove(const sf::FloatRect& playerBounds) {
                 );
 
                 if (headCheckArea.findIntersection(blockBounds).has_value()) {
-                    map[row][col] = '.';
+
+                    if (map[row][col] == 'B') {
+                        map[row][col] = '.';
+                    }
+                    else if (map[row][col] == '?') {
+                        mushrooms.emplace_back(
+                            static_cast<float>(col * tileSize),
+                            static_cast<float>((row - 1) * tileSize)
+                        );
+
+                        map[row][col] = 'U';
+                    }
+
                     return;
                 }
             }

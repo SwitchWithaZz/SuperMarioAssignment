@@ -57,8 +57,8 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         body.setPosition({0.f, body.getPosition().y});
     }
 
-    if (body.getPosition().x + body.getSize().x > 1000.f) {
-        body.setPosition({1000.f - body.getSize().x, body.getPosition().y});
+    if (body.getPosition().x + body.getSize().x > 1500.f) {
+        body.setPosition({1500.f - body.getSize().x, body.getPosition().y});
     }
 
     // Vertical movement second

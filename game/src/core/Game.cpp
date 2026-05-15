@@ -44,9 +44,10 @@ void Game::processEvents() {
 void Game::update(float dt) {
     player.handleInput();
     player.update(dt, level.getSolidBlocks());
+    level.update(dt);
 
     if (player.didHitHead()) {
-        level.breakBlockAbove(player.getBounds());
+        level.hitBlockAbove(player.getBounds());
     }
 
     for (Coin& coin : level.getCoins()) {
