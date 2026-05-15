@@ -4,8 +4,8 @@
 
 Player::Player()
     : velocity(0.f, 0.f),
-      moveSpeed(500.f),
-      jumpStrength(-1000.f),
+      moveSpeed(450.f),
+      jumpStrength(-950.f),
       gravity(2000.f),
       isGrounded(false),
       hitHead(false) {
