@@ -29,11 +29,11 @@ Game::Game()
         std::cout << "Failed to load hit sound\n";
     }
 
-    if (!pickupCoinSoundBuffer.loadFromFile("../assets/audio/pickupCoin.wav")) {
+    if (!pickupCoinSoundBuffer.loadFromFile("../assets/audio/pickupCoin.mp3")) {
         std::cout << "Failed to load pickup coin sound\n";
     }
 
-    if (!powerUpSoundBuffer.loadFromFile("../assets/audio/powerUp.wav")) {
+    if (!powerUpSoundBuffer.loadFromFile("../assets/audio/powerUp.mp3")) {
         std::cout << "Failed to load power up sound\n";
     }
 
