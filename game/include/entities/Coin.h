@@ -7,7 +7,7 @@
 
 class Coin {
 private:
-    sf::CircleShape shape;
+    sf::RectangleShape shape;
 
     bool collected = false;
 

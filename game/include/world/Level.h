@@ -13,7 +13,7 @@ private:
 
     std::vector<Coin> coins;
 
-    const int tileSize = 32;
+    const int tileSize = 50;
 
 public:
     Level();

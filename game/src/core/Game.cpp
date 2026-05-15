@@ -34,7 +34,7 @@ void Game::update(float dt) {
 }
 
 void Game::render() {
-    window.clear(sf::Color::Black);
+    window.clear(sf::Color::Cyan);
 
     level.draw(window);
     player.draw(window);
