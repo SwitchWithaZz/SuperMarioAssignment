@@ -27,9 +27,10 @@ public:
     void draw(sf::RenderWindow& window);
 
     std::vector<sf::FloatRect> getSolidBlocks() const;
+    std::vector<sf::FloatRect> getFlagBlocks() const;
 
-    void hitBlockAbove(const sf::FloatRect& playerBounds);
+    bool hitBlockAbove(const sf::FloatRect& playerBounds);
 
     std::vector<Coin>& getCoins();
-
+    std::vector<Mushroom>& getMushrooms();
 };

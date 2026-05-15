@@ -28,7 +28,6 @@ void Player::handleInput() {
 void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
     hitHead = false;
 
-    // Horizontal movement first
     body.move({velocity.x * dt, 0.f});
 
     for (const auto& blockBounds : solidBlocks) {
@@ -53,7 +52,6 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         }
     }
 
-    // Screen boundaries
     if (body.getPosition().x < 0.f) {
         body.setPosition({0.f, body.getPosition().y});
     }
@@ -62,7 +60,6 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         body.setPosition({worldSize - body.getSize().x, body.getPosition().y});
     }
 
-    // Vertical movement second
     velocity.y += gravity * dt;
     body.move({0.f, velocity.y * dt});
 
@@ -105,4 +102,15 @@ sf::FloatRect Player::getBounds() const {
 
 bool Player::didHitHead() const {
     return hitHead;
+}
+
+void Player::makeBig() {
+    sf::Vector2f oldSize = body.getSize();
+
+    body.setSize(sf::Vector2f(50.f, 100.f));
+
+    body.setPosition(sf::Vector2f(
+        body.getPosition().x,
+        body.getPosition().y - (100.f - oldSize.y)
+    ));
 }

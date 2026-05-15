@@ -24,4 +24,6 @@ public:
 
     sf::FloatRect getBounds() const;
     bool didHitHead() const;
+
+    void makeBig();
 };

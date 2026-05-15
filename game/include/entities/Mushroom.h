@@ -14,6 +14,8 @@ private:
     float moveSpeed;
     float gravity;
 
+    bool collected = false;
+
 public:
     Mushroom(float x, float y);
 
@@ -21,6 +23,9 @@ public:
     void draw(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;
+
+    bool isCollected() const;
+    void collect();
 };
 
 #endif //GAME_MUSHROOM_HPP

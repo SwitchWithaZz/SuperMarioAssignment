@@ -1,13 +1,13 @@
 #include "../../include/entities/Mushroom.h"
-#include <cstdlib>
-#include <world/Level.h>
-
 #include "world/worldSize.h"
+
+#include <cstdlib>
 
 Mushroom::Mushroom(float x, float y)
     : velocity(0.f, 0.f),
       moveSpeed(120.f),
-      gravity(1500.f) {
+      gravity(1500.f),
+      collected(false) {
 
     body.setSize(sf::Vector2f(50.f, 50.f));
     body.setFillColor(sf::Color::Magenta);
@@ -22,6 +22,9 @@ Mushroom::Mushroom(float x, float y)
 }
 
 void Mushroom::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
+    if (collected) {
+        return;
+    }
 
     body.move(sf::Vector2f(velocity.x * dt, 0.f));
 
@@ -90,9 +93,19 @@ void Mushroom::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
 }
 
 void Mushroom::draw(sf::RenderWindow& window) {
-    window.draw(body);
+    if (!collected) {
+        window.draw(body);
+    }
 }
 
 sf::FloatRect Mushroom::getBounds() const {
     return body.getGlobalBounds();
+}
+
+bool Mushroom::isCollected() const {
+    return collected;
+}
+
+void Mushroom::collect() {
+    collected = true;
 }
