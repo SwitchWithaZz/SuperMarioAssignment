@@ -4,7 +4,8 @@
 
 Game::Game()
     : window(sf::VideoMode({1000, 600}), "Mario Assignment"),
-      player() {
+      player(),
+      level() {
 }
 
 void Game::run() {
@@ -29,12 +30,13 @@ void Game::processEvents() {
 
 void Game::update(float dt) {
     player.handleInput();
-    player.update(dt);
+    player.update(dt, level.getSolidBlocks());
 }
 
 void Game::render() {
     window.clear(sf::Color::Black);
 
+    level.draw(window);
     player.draw(window);
 
     window.display();
