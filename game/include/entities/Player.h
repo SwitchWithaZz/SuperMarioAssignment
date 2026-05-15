@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 class Player {
 private:
@@ -17,7 +18,7 @@ public:
     Player();
 
     void handleInput();
-    void update(float dt);
+    void update(float dt, const std::vector<sf::RectangleShape>& solidBlocks);
     void draw(sf::RenderWindow& window);
 
     sf::FloatRect getBounds() const;

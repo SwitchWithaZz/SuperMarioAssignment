@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include "entities/Player.h"
 #include "world/Level.h"
 

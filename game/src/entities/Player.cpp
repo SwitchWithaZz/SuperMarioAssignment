@@ -1,4 +1,5 @@
 #include "entities/Player.h"
+#include "core/InputManager.h"
 
 Player::Player()
     : velocity(0.f, 0.f),
@@ -13,28 +14,21 @@ Player::Player()
 }
 
 void Player::handleInput() {
-    velocity.x = 0.f;
+    float movement = InputManager::getHorizontalMovement();
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        velocity.x = -moveSpeed;
-    }
+    velocity.x = movement * moveSpeed;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        velocity.x = moveSpeed;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && isGrounded) {
+    if (InputManager::isJumpPressed() && isGrounded) {
         velocity.y = jumpStrength;
         isGrounded = false;
     }
 }
 
-void Player::update(float dt) {
+void Player::update(float dt, const std::vector<sf::RectangleShape>& solidBlocks) {
     velocity.y += gravity * dt;
 
     body.move(velocity * dt);
 
-    // LEFT WALL
     if (body.getPosition().x < 0.f) {
         body.setPosition({
             0.f,
@@ -42,7 +36,6 @@ void Player::update(float dt) {
         });
     }
 
-    // RIGHT WALL
     if (body.getPosition().x + body.getSize().x > 1000.f) {
         body.setPosition({
             1000.f - body.getSize().x,
@@ -50,17 +43,25 @@ void Player::update(float dt) {
         });
     }
 
-    // FLOOR
-    const float floorY = 500.f;
+    isGrounded = false;
 
-    if (body.getPosition().y + body.getSize().y >= floorY) {
-        body.setPosition({
-            body.getPosition().x,
-            floorY - body.getSize().y
-        });
+    for (const auto& block : solidBlocks) {
+        auto intersection = body.getGlobalBounds().findIntersection(block.getGlobalBounds());
 
-        velocity.y = 0.f;
-        isGrounded = true;
+        if (intersection.has_value()) {
+            sf::FloatRect playerBounds = body.getGlobalBounds();
+            sf::FloatRect blockBounds = block.getGlobalBounds();
+
+            if (velocity.y > 0.f) {
+                body.setPosition({
+                    body.getPosition().x,
+                    blockBounds.position.y - playerBounds.size.y
+                });
+
+                velocity.y = 0.f;
+                isGrounded = true;
+            }
+        }
     }
 }
 
