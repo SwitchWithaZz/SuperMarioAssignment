@@ -9,6 +9,16 @@ add_executable(game
         src/main.cpp
         src/core/Game.cpp
         src/entities/Player.cpp
+        src/core/Game.cpp
+        src/entities/Player.cpp
+        include/world/Level.h
+        src/world/Level.cpp
+        include/entities/Block.h
+        src/entities/block.cpp
+        include/entities/Coin.h
+        src/entities/coin.cpp
+        include/entities/Mushroom.h
+        src/entities/mushroom.cpp
 )
 
 target_include_directories(game PRIVATE include)
