@@ -2,6 +2,7 @@
 #include "world/worldSize.h"
 
 #include <cstdlib>
+#include <iostream>
 
 Mushroom::Mushroom(float x, float y)
     : velocity(0.f, 0.f),
@@ -9,8 +10,19 @@ Mushroom::Mushroom(float x, float y)
       gravity(1500.f),
       collected(false) {
 
+    static sf::Texture mushroomTexture;
+    static bool textureLoaded = false;
+
+    if (!textureLoaded) {
+        if (!mushroomTexture.loadFromFile("../assets/textures/Blocks/SMB_Supermushroom.png")) {
+            std::cout << "Failed to load mushroom texture\n";
+        }
+
+        textureLoaded = true;
+    }
+
     body.setSize(sf::Vector2f(50.f, 50.f));
-    body.setFillColor(sf::Color::Magenta);
+    body.setTexture(&mushroomTexture);
     body.setPosition(sf::Vector2f(x, y));
 
     if (std::rand() % 2 == 0) {
