@@ -97,7 +97,7 @@ void Level::draw(sf::RenderWindow& window) {
                     tile.setFillColor(sf::Color(252, 152, 56));
                 }
                 else if (currentTile == 'U') {
-                    tile.setFillColor(sf::Color(120, 120, 120));
+                    tile.setFillColor(sf::Color(180, 76, 12));
                 }
 
                 window.draw(tile);

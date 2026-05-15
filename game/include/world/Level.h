@@ -31,4 +31,5 @@ public:
     void hitBlockAbove(const sf::FloatRect& playerBounds);
 
     std::vector<Coin>& getCoins();
+
 };
