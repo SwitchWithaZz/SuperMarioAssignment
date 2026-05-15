@@ -3,12 +3,12 @@
 #include <fstream>
 #include <iostream>
 
-Level::Level() {
-}
+Level::Level() {}
 
 void Level::loadFromFile(const std::string& path) {
 
     map.clear();
+    coins.clear();
 
     std::ifstream file(path);
 
@@ -18,7 +18,6 @@ void Level::loadFromFile(const std::string& path) {
     }
 
     std::string line;
-
     int row = 0;
 
     while (std::getline(file, line)) {
@@ -27,11 +26,12 @@ void Level::loadFromFile(const std::string& path) {
 
         for (int col = 0; col < line.size(); col++) {
 
-            if (line[col] == 'C') {
+            char tile = line[col];
 
+            if (tile == 'C') {
                 coins.emplace_back(
-                    static_cast<float>(col * tileSize + 6),
-                    static_cast<float>(row * tileSize + 6)
+                    col * tileSize + 6.f,
+                    row * tileSize + 6.f
                 );
             }
         }
@@ -45,36 +45,39 @@ void Level::loadFromFile(const std::string& path) {
 void Level::draw(sf::RenderWindow& window) {
 
     sf::RectangleShape tile(
-        sf::Vector2f(
-            static_cast<float>(tileSize),
-            static_cast<float>(tileSize)
-        )
+        sf::Vector2f((float)tileSize, (float)tileSize)
     );
 
     for (int row = 0; row < map.size(); row++) {
 
         for (int col = 0; col < map[row].size(); col++) {
 
-            char currentTile = map[row][col];
+            char tileChar = map[row][col];
 
-            if (currentTile == '#') {
-
-                tile.setPosition(
-                    sf::Vector2f(
-                        static_cast<float>(col * tileSize),
-                        static_cast<float>(row * tileSize)
-                    )
-                );
-
+            if (tileChar == '#') {
                 tile.setFillColor(sf::Color::Green);
-
-                window.draw(tile);
-
-                tile.setOutlineThickness(1.f);
-                tile.setOutlineColor(sf::Color::Black);
             }
+            else if (tileChar == 'B') {
+                tile.setFillColor(sf::Color(139, 69, 19)); // brown
+            }
+            else if (tileChar == '?') {
+                tile.setFillColor(sf::Color::Yellow);
+            }
+            else {
+                continue;
+            }
+
+            tile.setPosition(
+                sf::Vector2f(
+                    col * tileSize,
+                    row * tileSize
+                )
+            );
+
+            window.draw(tile);
         }
     }
+
     for (Coin& coin : coins) {
         coin.draw(window);
     }
@@ -82,33 +85,25 @@ void Level::draw(sf::RenderWindow& window) {
 
 std::vector<sf::FloatRect> Level::getSolidBlocks() const {
 
-    std::vector<sf::FloatRect> solidBlocks;
+    std::vector<sf::FloatRect> solids;
 
     for (int row = 0; row < map.size(); row++) {
 
         for (int col = 0; col < map[row].size(); col++) {
 
-            char currentTile = map[row][col];
+            char tile = map[row][col];
 
-            if (currentTile == '#') {
+            if (tile == '#' || tile == 'B' || tile == '?') {
 
-                solidBlocks.push_back(
-                    sf::FloatRect(
-                        sf::Vector2f(
-                            static_cast<float>(col * tileSize),
-                            static_cast<float>(row * tileSize)
-                        ),
-                        sf::Vector2f(
-                            static_cast<float>(tileSize),
-                            static_cast<float>(tileSize)
-                        )
-                    )
+                solids.emplace_back(
+                    sf::Vector2f(col * tileSize, row * tileSize),
+                    sf::Vector2f(tileSize, tileSize)
                 );
             }
         }
     }
 
-    return solidBlocks;
+    return solids;
 }
 
 std::vector<Coin>& Level::getCoins() {
