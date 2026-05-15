@@ -15,7 +15,14 @@ private:
     std::vector<Coin> coins;
     std::vector<Mushroom> mushrooms;
 
+    sf::Texture groundTexture;
+    sf::Texture brickTexture;
+    sf::Texture questionBlockTexture;
+    sf::Texture emptyBlockTexture;
+
     const int tileSize = 50;
+
+    void loadTexture(sf::Texture& texture, const std::string& path);
 
 public:
     Level();

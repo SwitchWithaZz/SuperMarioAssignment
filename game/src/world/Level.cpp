@@ -4,7 +4,18 @@
 #include <iostream>
 
 Level::Level() {
+    loadTexture(groundTexture, "../assets/textures/Blocks/SMB_Ground.png");
+    loadTexture(brickTexture, "../assets/textures/Blocks/SMB_Brick_Block_Sprite.png");
+    loadTexture(questionBlockTexture, "../assets/textures/Blocks/SMB_Qblock.png");
+    loadTexture(emptyBlockTexture, "../assets/textures/Blocks/SMB1_Empty_Block.png");
+
     loadFromFile("../assets/levels/level1.txt");
+}
+
+void Level::loadTexture(sf::Texture& texture, const std::string& path) {
+    if (!texture.loadFromFile(path)) {
+        std::cout << "Failed to load texture: " << path << "\n";
+    }
 }
 
 void Level::loadFromFile(const std::string& path) {
@@ -89,22 +100,24 @@ void Level::draw(sf::RenderWindow& window) {
 
                 if (currentTile == '#') {
                     tile.setSize(sf::Vector2f(50.f, 70.f));
-                    tile.setFillColor(sf::Color(0, 168, 0));
+                    tile.setTexture(&groundTexture);
                     window.draw(tile);
                 }
                 else if (currentTile == 'B') {
-                    tile.setFillColor(sf::Color(200, 76, 12));
+                    tile.setTexture(&brickTexture);
                     window.draw(tile);
                 }
                 else if (currentTile == '?' || currentTile == '!') {
-                    tile.setFillColor(sf::Color(252, 152, 56));
+                    tile.setTexture(&questionBlockTexture);
                     window.draw(tile);
                 }
                 else if (currentTile == 'U') {
-                    tile.setFillColor(sf::Color(180, 76, 12));
+                    tile.setTexture(&emptyBlockTexture);
                     window.draw(tile);
                 }
                 else if (currentTile == 'F') {
+                    tile.setTexture(nullptr);
+
                     sf::RectangleShape pole(
                         sf::Vector2f(10.f, 150.f)
                     );
@@ -128,6 +141,8 @@ void Level::draw(sf::RenderWindow& window) {
                     window.draw(pole);
                     window.draw(flag);
                 }
+
+                tile.setTexture(nullptr);
             }
         }
     }
