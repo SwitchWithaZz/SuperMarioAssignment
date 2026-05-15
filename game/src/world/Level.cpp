@@ -78,13 +78,13 @@ void Level::draw(sf::RenderWindow& window) {
                 );
 
                 if (currentTile == '#') {
-                    tile.setFillColor(sf::Color::Green);
+                    tile.setFillColor(sf::Color(0, 168, 0));
                 }
                 else if (currentTile == 'B') {
-                    tile.setFillColor(sf::Color(150, 75, 0));
+                    tile.setFillColor(sf::Color(200, 76, 12));
                 }
                 else if (currentTile == '?') {
-                    tile.setFillColor(sf::Color(255,165,0));
+                    tile.setFillColor(sf::Color(252, 152, 56));
                 }
 
                 window.draw(tile);
