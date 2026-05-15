@@ -15,7 +15,6 @@ Player::Player()
 
 void Player::handleInput() {
     float movement = InputManager::getHorizontalMovement();
-
     velocity.x = movement * moveSpeed;
 
     if (InputManager::isJumpPressed() && isGrounded) {
@@ -25,23 +24,43 @@ void Player::handleInput() {
 }
 
 void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
-    velocity.y += gravity * dt;
+    // Horizontal movement first
+    body.move({velocity.x * dt, 0.f});
 
-    body.move(velocity * dt);
+    for (const auto& blockBounds : solidBlocks) {
+        auto intersection = body.getGlobalBounds().findIntersection(blockBounds);
 
+        if (intersection.has_value()) {
+            if (velocity.x > 0.f) {
+                body.setPosition({
+                    blockBounds.position.x - body.getSize().x,
+                    body.getPosition().y
+                });
+            }
+
+            if (velocity.x < 0.f) {
+                body.setPosition({
+                    blockBounds.position.x + blockBounds.size.x,
+                    body.getPosition().y
+                });
+            }
+
+            velocity.x = 0.f;
+        }
+    }
+
+    // Screen boundaries
     if (body.getPosition().x < 0.f) {
-        body.setPosition({
-            0.f,
-            body.getPosition().y
-        });
+        body.setPosition({0.f, body.getPosition().y});
     }
 
     if (body.getPosition().x + body.getSize().x > 1000.f) {
-        body.setPosition({
-            1000.f - body.getSize().x,
-            body.getPosition().y
-        });
+        body.setPosition({1000.f - body.getSize().x, body.getPosition().y});
     }
+
+    // Vertical movement second
+    velocity.y += gravity * dt;
+    body.move({0.f, velocity.y * dt});
 
     isGrounded = false;
 
@@ -49,17 +68,23 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         auto intersection = body.getGlobalBounds().findIntersection(blockBounds);
 
         if (intersection.has_value()) {
-            sf::FloatRect playerBounds = body.getGlobalBounds();
-
             if (velocity.y > 0.f) {
                 body.setPosition({
                     body.getPosition().x,
-                    blockBounds.position.y - playerBounds.size.y
+                    blockBounds.position.y - body.getSize().y
                 });
 
-                velocity.y = 0.f;
                 isGrounded = true;
             }
+
+            if (velocity.y < 0.f) {
+                body.setPosition({
+                    body.getPosition().x,
+                    blockBounds.position.y + blockBounds.size.y
+                });
+            }
+
+            velocity.y = 0.f;
         }
     }
 }
