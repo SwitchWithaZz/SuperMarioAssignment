@@ -2,9 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+    const sf::Texture smallMarioTexture("../assets/textures/Mario/ClassicNES SMB Small Mario Sprite.png");
+    inline sf::Sprite mario(smallMarioTexture);
 
 class Player {
 private:
+
+
     sf::RectangleShape body;
     sf::Vector2f velocity;
 
