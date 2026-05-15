@@ -7,13 +7,13 @@ find_package(SFML COMPONENTS Graphics Window System Audio REQUIRED)
 
 add_executable(game
         src/main.cpp
-        include/world/level.hpp
-        src/world/level.cpp
-        include/entities/block.hpp
+        include/world/Level.h
+        src/world/Level.cpp
+        include/entities/Block.h
         src/entities/block.cpp
-        include/entities/coin.hpp
+        include/entities/Coin.h
         src/entities/coin.cpp
-        include/entities/mushroom.hpp
+        include/entities/Mushroom.h
         src/entities/mushroom.cpp
 )
 
