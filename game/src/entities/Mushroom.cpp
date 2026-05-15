@@ -1,5 +1,8 @@
 #include "../../include/entities/Mushroom.h"
 #include <cstdlib>
+#include <world/Level.h>
+
+#include "world/worldSize.h"
 
 Mushroom::Mushroom(float x, float y)
     : velocity(0.f, 0.f),
@@ -31,9 +34,9 @@ void Mushroom::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         velocity.x = moveSpeed;
     }
 
-    if (body.getPosition().x + body.getSize().x > 3100.f) {
+    if (body.getPosition().x + body.getSize().x > worldSize) {
         body.setPosition(sf::Vector2f(
-            3100.f - body.getSize().x,
+            worldSize - body.getSize().x,
             body.getPosition().y
         ));
 

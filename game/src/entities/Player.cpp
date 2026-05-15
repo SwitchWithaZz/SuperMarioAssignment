@@ -1,5 +1,6 @@
 #include "entities/Player.h"
 #include "core/InputManager.h"
+#include "world/worldSize.h"
 
 Player::Player()
     : velocity(0.f, 0.f),
@@ -57,8 +58,8 @@ void Player::update(float dt, const std::vector<sf::FloatRect>& solidBlocks) {
         body.setPosition({0.f, body.getPosition().y});
     }
 
-    if (body.getPosition().x + body.getSize().x > 3100.f) {
-        body.setPosition({3100.f - body.getSize().x, body.getPosition().y});
+    if (body.getPosition().x + body.getSize().x > worldSize) {
+        body.setPosition({worldSize - body.getSize().x, body.getPosition().y});
     }
 
     // Vertical movement second

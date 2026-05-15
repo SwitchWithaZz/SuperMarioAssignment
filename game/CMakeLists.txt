@@ -21,6 +21,7 @@ add_executable(game
         src/entities/mushroom.cpp
         include/core/InputManager.h
         src/core/InputManager.cpp
+        include/world/worldSize.h
 )
 
 target_include_directories(game PRIVATE include)
