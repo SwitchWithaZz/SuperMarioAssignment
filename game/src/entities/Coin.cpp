@@ -2,7 +2,7 @@
 
 Coin::Coin(float x, float y) {
 
-    shape.setRadius(10.f);
+    shape.setSize(sf::Vector2f(50.f, 50.f));
 
     shape.setFillColor(sf::Color::Yellow);
 

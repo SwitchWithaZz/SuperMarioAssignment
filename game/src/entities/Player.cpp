@@ -8,7 +8,7 @@ Player::Player()
       gravity(1500.f),
       isGrounded(false) {
 
-    body.setSize({50.f, 70.f});
+    body.setSize({50.f, 50.f});
     body.setFillColor(sf::Color::Red);
     body.setPosition({100.f, 300.f});
 }

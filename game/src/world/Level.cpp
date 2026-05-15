@@ -31,8 +31,8 @@ void Level::loadFromFile(const std::string& path) {
             if (line[col] == 'C') {
 
                 coins.emplace_back(
-                    static_cast<float>(col * tileSize + 6),
-                    static_cast<float>(row * tileSize + 6)
+                    static_cast<float>(col * tileSize),
+                    static_cast<float>(row * tileSize)
                 );
             }
         }
@@ -58,7 +58,17 @@ void Level::draw(sf::RenderWindow& window) {
 
             char currentTile = map[row][col];
 
-            if (currentTile == '#') {
+            if (currentTile == '#' || currentTile == 'B' || currentTile == '?') {
+
+                if (currentTile == '#') {
+                    tile.setSize(sf::Vector2f(50.f, 70.f));
+                }
+                else {
+                    tile.setSize(sf::Vector2f(
+                        static_cast<float>(tileSize),
+                        static_cast<float>(tileSize)
+                    ));
+                }
 
                 tile.setPosition(
                     sf::Vector2f(
@@ -67,15 +77,24 @@ void Level::draw(sf::RenderWindow& window) {
                     )
                 );
 
-                tile.setFillColor(sf::Color::Green);
-
-                window.draw(tile);
+                if (currentTile == '#') {
+                    tile.setFillColor(sf::Color::Green);
+                }
+                else if (currentTile == 'B') {
+                    tile.setFillColor(sf::Color(150, 75, 0));
+                }
+                else if (currentTile == '?') {
+                    tile.setFillColor(sf::Color(255,165,0));
+                }
 
                 tile.setOutlineThickness(1.f);
                 tile.setOutlineColor(sf::Color::Black);
+
+                window.draw(tile);
             }
         }
     }
+
     for (Coin& coin : coins) {
         coin.draw(window);
     }
@@ -91,7 +110,16 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
 
             char currentTile = map[row][col];
 
-            if (currentTile == '#') {
+            if (currentTile == '#' || currentTile == 'B' || currentTile == '?') {
+
+                sf::Vector2f blockSize(
+                    static_cast<float>(tileSize),
+                    static_cast<float>(tileSize)
+                );
+
+                if (currentTile == '#') {
+                    blockSize = sf::Vector2f(50.f, 70.f);
+                }
 
                 solidBlocks.push_back(
                     sf::FloatRect(
@@ -99,10 +127,7 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
                             static_cast<float>(col * tileSize),
                             static_cast<float>(row * tileSize)
                         ),
-                        sf::Vector2f(
-                            static_cast<float>(tileSize),
-                            static_cast<float>(tileSize)
-                        )
+                        blockSize
                     )
                 );
             }
@@ -110,8 +135,4 @@ std::vector<sf::FloatRect> Level::getSolidBlocks() const {
     }
 
     return solidBlocks;
-}
-
-std::vector<Coin>& Level::getCoins() {
-    return coins;
 }
